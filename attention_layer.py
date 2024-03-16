@@ -74,3 +74,4 @@ class Attention_layer(nn.Module):
         att_out=torch.matmul(weights,v.transpose(4,5))
         att_out=att_out.reshape(batch_size,-1,height,width)
         return att_out
+# killer 
