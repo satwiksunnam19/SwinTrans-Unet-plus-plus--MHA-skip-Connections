@@ -694,6 +694,7 @@ class SwinTransformerSys(nn.Module):
         num_patches = self.patch_embed.num_patches
         patches_resolution = self.patch_embed.patches_resolution
         self.patches_resolution = patches_resolution
+        self.mha = nn.MultiheadAttention(embed_dim=embed_dim, num_heads=num_heads[0])
 
         # absolute position embedding
         if self.ape:
