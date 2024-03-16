@@ -73,13 +73,22 @@ def trainer_synapse(args, model, snapshot_path):
             logging.info('iteration %d : loss : %f, loss_ce: %f' % (iter_num, loss.item(), loss_ce.item()))
 
             if iter_num % 20 == 0:
-                image = image_batch[1, 0:1, :, :]
+                if image_batch.size(0) > 1:
+                    image = image_batch[1, 0:1, :, :]
+                else:
+                    image = image_batch[0, 0:1, :, :]
                 image = (image - image.min()) / (image.max() - image.min())
                 writer.add_image('train/Image', image, iter_num)
+
                 outputs = torch.argmax(torch.softmax(outputs, dim=1), dim=1, keepdim=True)
-                writer.add_image('train/Prediction', outputs[1, ...] * 50, iter_num)
-                labs = label_batch[1, ...].unsqueeze(0) * 50
+                if image_batch.size(0) > 1:
+                    writer.add_image('train/Prediction', outputs[1, ...] * 50, iter_num)
+                    labs = label_batch[1, ...].unsqueeze(0) * 50
+                else:
+                    writer.add_image('train/Prediction', outputs[0, ...] * 50, iter_num)
+                    labs = label_batch[0, ...].unsqueeze(0) * 50
                 writer.add_image('train/GroundTruth', labs, iter_num)
+
 
         # save_interval = 50
         # if epoch_num > int(max_epoch / 2) and (epoch_num + 1) % save_interval == 0:
@@ -94,7 +103,7 @@ def trainer_synapse(args, model, snapshot_path):
         #     iterator.close()
         #     break
 
-        save_interval = 2
+        save_interval = 40 
         if (epoch_num + 1) % save_interval == 0:
             save_mode_path = os.path.join(snapshot_path, 'epoch_' + str(epoch_num) + '.pth')
             torch.save(model.state_dict(), save_mode_path)
