@@ -103,7 +103,7 @@ def trainer_synapse(args, model, snapshot_path):
         #     iterator.close()
         #     break
 
-        save_interval = 40 
+        save_interval = 500 
         if (epoch_num + 1) % save_interval == 0:
             save_mode_path = os.path.join(snapshot_path, 'epoch_' + str(epoch_num) + '.pth')
             torch.save(model.state_dict(), save_mode_path)
