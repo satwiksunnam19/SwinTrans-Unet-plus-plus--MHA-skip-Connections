@@ -789,8 +789,8 @@ class SwinTransformerSys(nn.Module):
 
         return x, x_downsample_new
     
-    # Decoder and Skip Connections (MHA-Skips)
-    def forward_up_features(self,x,x_downsample):
+    # Decoder and Skip Connections (MHA-Skips)   
+    def forward_up_features(self,x,x_downsample): 
         for inx,layer_up in enumerate(self.layers_up):
             if inx==0:
                 x=layer_up(x)
