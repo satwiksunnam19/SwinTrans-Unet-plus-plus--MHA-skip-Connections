@@ -1,4 +1,4 @@
-from bitnet.bitlinear import BitLinear 
+from bitnet import BitLinear
 import math 
 import torch 
 import torch.nn as nn 
