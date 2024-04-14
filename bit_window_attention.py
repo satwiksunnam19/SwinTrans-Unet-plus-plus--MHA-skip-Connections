@@ -100,3 +100,4 @@ class WindowAttention(nn.Module):
         flops+=N*self.dim*self.dim
 
         return flops 
+# print("killer")
